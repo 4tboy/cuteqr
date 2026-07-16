@@ -1,0 +1,10 @@
+{
+  "name": "qr-generator-app",
+  "version": "1.0.0",
+  "description": "Cute and Practical QR Code Generator Application",
+  "scripts": {
+    "install:client": "npm install --prefix client",
+    "install-all": "npm run install:client",
+    "dev": "npm run dev --prefix client"
+  }
+}

@@ -1,0 +1,50 @@
+# ─── Dependencies ───────────────────────────────────────────────────────────
+node_modules/
+client/node_modules/
+
+# ─── Build Output ────────────────────────────────────────────────────────────
+client/dist/
+client/dist-electron/
+dist/
+dist-ssr/
+*.local
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ─── Personal / Internal Files ───────────────────────────────────────────────
+.agents/
+backup.zip
+tests/
+DESIGN.md
+PRODUCT.md
+skills-lock.json
+"QR Code App Development Research_*.md"
+QR Code App Development Research*.md
+
+# ─── Unused Template Assets (not imported anywhere in the app) ───────────────
+client/src/assets/react.svg
+client/src/assets/vite.svg
+client/src/assets/hero.png
+
+# ─── Lock Files (optional – remove if you want reproducible installs) ────────
+package-lock.json
+client/package-lock.json
+
+# ─── OS & Editor Junk ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
