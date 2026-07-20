@@ -1,150 +1,143 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/CuteQR-%E2%9C%A8%20Creative%20QR%20Studio-FFB3D9?style=for-the-badge&logo=qrcode&logoColor=white" alt="CuteQR Banner" />
+<br />
 
-<br/>
+```
+  ██████╗██╗   ██╗████████╗███████╗ ██████╗██████╗ 
+ ██╔════╝██║   ██║╚══██╔══╝██╔════╝██╔═══██╗██╔══██╗
+ ██║     ██║   ██║   ██║   █████╗  ██║   ██║██████╔╝
+ ██║     ██║   ██║   ██║   ██╔══╝  ██║   ██║██╔══██╗
+ ╚██████╗╚██████╔╝   ██║   ███████╗╚██████╔╝██║  ██║
+  ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
+```
 
-![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Electron](https://img.shields.io/badge/Electron-34-47848F?style=flat-square&logo=electron&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-v3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+### **CuteQR Studio**
+**Local-first, privacy-focused studio for generating & scanning stylized QR codes.**
 
-<br/>
+<br />
 
-### ✨ Generate beautiful, customized QR codes — no account, no internet, no ads.
+[![Download Installer](https://img.shields.io/badge/⚡_Download_Setup-.exe_--_v1.0.0-FFB3D9?style=for-the-badge&logo=windows&logoColor=2C3E50)](https://github.com/4tboy/cuteqr/releases)
+[![Download Portable](https://img.shields.io/badge/📦_Download_Portable-.exe_--_v1.0.0-B3E5FC?style=for-the-badge&logo=windows&logoColor=2C3E50)](https://github.com/4tboy/cuteqr/releases)
+
+<br />
+
+[![License](https://img.shields.io/badge/License-MIT-2C3E50?style=flat-square)](LICENSE)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev)
+[![Electron](https://img.shields.io/badge/Electron-34.0-47848F?style=flat-square&logo=electron&logoColor=white)](https://electronjs.org)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 
 </div>
 
 ---
 
-## 🎯 Why CuteQR?
-
-Most QR generators are ugly, ad-heavy, or require you to sign up. **CuteQR runs 100% on your device** — your data never leaves your computer. It looks great, works instantly, and gives you full creative control over every pixel.
+> **Why we built this:** Most online QR generators are ad-cluttered, track your data, or charge for basic styling. CuteQR is local-first, zero-telemetry, free, and beautiful by default.
 
 ---
 
-## 🌟 Features
+### ✨ Key Features
 
-| Feature | Details |
-|---|---|
-| 🔗 **URL QR** | Link to any website |
-| 📶 **Wi-Fi QR** | Tap-to-connect for guests |
-| 👤 **vCard QR** | Share contact info instantly |
-| 💬 **Text QR** | Any plain text message |
-| 💸 **UPI Payment QR** | Accept payments instantly (India) |
-| 🎨 **Full Customization** | Dot shapes, gradients, corner styles |
-| 🖼️ **Logo Embedding** | Add image or text badge to center |
-| 🎨 **Color Picker** | Eyedropper + saved color presets |
-| ⬇️ **PNG / SVG Export** | Smart filenames, crisp quality |
-| 📷 **QR Scanner** | Webcam + image upload scanning |
-| 🕐 **History** | All your QR codes saved locally |
-| 🖥️ **Desktop App** | Electron native window (Windows) |
+- **Multi-Payload Generator**: Create QR codes for URLs, Wi-Fi auto-connect, vCards, Plain Text, and UPI payments (India).
+- **Aesthetic Customization**: Full control over dot patterns, eye geometries, linear/radial gradients, and background colors.
+- **Brand Embedding**: Embed central image logos or text badges with automatic contrast calculation.
+- **Built-in Scanner**: Instant verification via webcam feed or image file upload (`html5-qrcode` & `jsqr`).
+- **Local History**: Save, organize, and reuse QR presets locally without accounts or servers.
+- **Dual Distribution**: Available as a web app or zero-dependency native Windows desktop application.
 
 ---
 
-## 🚀 Getting Started
+### 📥 Installation & Downloads
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) v18+
-- npm (included with Node.js)
+#### Pre-built Binaries (Windows)
+Download pre-compiled executables from the [Releases](https://github.com/4tboy/cuteqr/releases) page:
 
-### Run in the browser
+- **Installer (`CuteQR-Setup-1.0.0.exe`)**: Full NSIS setup wizard with start menu shortcuts, desktop icon, and uninstall data preservation prompt.
+- **Portable (`CuteQR-Portable-1.0.0.exe`)**: Standalone binary. Runs directly without installation.
+
+#### Local Development
 ```bash
-# 1. Install dependencies
-npm run install:client
+# Clone the repository
+git clone https://github.com/4tboy/cuteqr.git
+cd cuteqr
 
-# 2. Start the app
+# Install dependencies & start dev server
+npm run install:client
 npm run dev
 
-# Open → http://localhost:3000
+# Open http://localhost:3000
 ```
 
-### Run as Electron desktop app
+#### Desktop Build (Electron)
 ```bash
 cd client
-npm run electron:start
-```
-
-### Build Windows installer (.exe)
-```bash
-cd client
-npm run electron:build
-# Installer → client/dist-electron/
+npm run electron:start   # Run desktop window in dev mode
+npm run electron:build   # Package NSIS & Portable executables
 ```
 
 ---
 
-## 🗂️ Project Structure
+### 🗂️ Project Structure
 
 ```
 cuteqr/
-├── client/
+├── client/                     # Application source
 │   ├── src/
-│   │   ├── App.jsx                      # Main app (all tabs & logic)
-│   │   ├── main.jsx                     # React entry point
-│   │   ├── index.css                    # Global styles + Tailwind
+│   │   ├── App.jsx             # Core application & state logic
+│   │   ├── main.jsx            # React 19 mount
+│   │   ├── index.css           # Design tokens & Tailwind CSS
 │   │   └── components/
-│   │       └── CustomColorPicker.jsx    # Color picker with eyedropper
+│   │       └── CustomColorPicker.jsx  # Color picker with eyedropper
 │   ├── public/
-│   │   ├── favicon.svg
-│   │   └── icons.svg
-│   ├── electron-main.cjs               # Electron main process
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── package.json
-└── package.json                        # Root convenience scripts
+│   │   ├── logo.svg            # Vector branding logo
+│   │   ├── favicon.svg         # Favicon asset
+│   │   └── icons.svg           # Sprite icons
+│   ├── build/                  # Packaging assets
+│   │   ├── icon.ico            # Windows executable multi-res icon
+│   │   ├── icon.png            # High-res 512x512 app icon
+│   │   └── installer.nsh       # Custom NSIS uninstaller hook
+│   ├── electron-main.cjs       # Electron main process
+│   ├── vite.config.js          # Vite 6 config
+│   ├── tailwind.config.js      # Tailwind & DaisyUI theme config
+│   └── package.json            # Client dependencies & build scripts
+├── .gitignore
+├── README.md
+└── package.json                # Root scripts
 ```
 
 ---
 
-## 🛠️ Tech Stack
+### 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| UI Framework | React 19 + JSX |
-| Styling | Tailwind CSS v3 + DaisyUI (cupcake theme) |
-| QR Generation | `qr-code-styling` |
-| QR Scanning | `html5-qrcode` · `@zxing/browser` · `jsqr` |
-| Desktop Shell | Electron 34 |
-| Build Tool | Vite 6 |
-| Font | Quicksand (Google Fonts) |
+- **UI & Logic**: React 19, JSX
+- **Styling**: Tailwind CSS v3, DaisyUI (cupcake theme)
+- **QR Rendering**: `qr-code-styling`
+- **QR Scanning**: `html5-qrcode`, `@zxing/browser`, `jsqr`
+- **Desktop Shell**: Electron 34, `electron-builder`
+- **Build Engine**: Vite 6
 
 ---
 
-## ❤️ Support This Project
+### 🤝 Contributing
 
-If CuteQR saved you time or made your day a little more beautiful, consider buying me a coffee! Every contribution keeps this project alive and improving. 🙏
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-<div align="center">
-
-### 🇮🇳 UPI Payment (India)
-
-**UPI ID: `ashahu@upi`**
-
-> Scan the UPI QR or copy the ID into any UPI app (GPay, PhonePe, Paytm, etc.)
-
-<br/>
-
-### 🌍 PayPal (International)
-
-[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/paypalme/4tboy)
-
-<br/>
-
-_Even a small ☕ means a lot — thank you!_
-
-</div>
+1. Fork the Repository
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 📄 License
+### 🤍 Support & Donations
 
-MIT — free to use, modify, and distribute.
+If CuteQR saves you time or serves your team, support the project:
+
+- **PayPal**: [paypal.me/4tboy](https://www.paypal.com/paypalme/4tboy)
+- **UPI (India)**: `ashahu@upi`
 
 ---
 
-<div align="center">
-Made with ❤️ and a lot of ✨ by <a href="https://github.com/4tboy">4tboy</a>
-</div>
+### 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
