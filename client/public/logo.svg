@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFB3D9"/>
+      <stop offset="100%" stop-color="#B3E5FC"/>
+    </linearGradient>
+    <linearGradient id="dk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C3E50"/>
+      <stop offset="100%" stop-color="#1e2d3d"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="white" stop-opacity="1"/>
+      <stop offset="60%" stop-color="white" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="starShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="rgba(255,179,217,0.8)"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded background -->
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#bg)"/>
+
+  <!-- ══ QR EYE: TOP LEFT ══ -->
+  <rect x="68"  y="68"  width="126" height="126" rx="26" ry="26" fill="url(#dk)"/>
+  <rect x="90"  y="90"  width="82"  height="82"  rx="16" ry="16" fill="url(#bg)"/>
+  <rect x="112" y="112" width="38"  height="38"  rx="9"  ry="9"  fill="url(#dk)"/>
+
+  <!-- ══ QR EYE: TOP RIGHT ══ -->
+  <rect x="318" y="68"  width="126" height="126" rx="26" ry="26" fill="url(#dk)"/>
+  <rect x="340" y="90"  width="82"  height="82"  rx="16" ry="16" fill="url(#bg)"/>
+  <rect x="362" y="112" width="38"  height="38"  rx="9"  ry="9"  fill="url(#dk)"/>
+
+  <!-- ══ QR EYE: BOTTOM LEFT ══ -->
+  <rect x="68"  y="318" width="126" height="126" rx="26" ry="26" fill="url(#dk)"/>
+  <rect x="90"  y="340" width="82"  height="82"  rx="16" ry="16" fill="url(#bg)"/>
+  <rect x="112" y="362" width="38"  height="38"  rx="9"  ry="9"  fill="url(#dk)"/>
+
+  <!-- ══ DATA MODULES (Bottom-Right quadrant) ══ -->
+  <rect x="290" y="242" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.80"/>
+  <rect x="340" y="250" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.55"/>
+  <rect x="388" y="242" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.35"/>
+
+  <rect x="248" y="292" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.65"/>
+  <rect x="338" y="288" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.88"/>
+  <rect x="388" y="295" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.50"/>
+
+  <rect x="248" y="340" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.90"/>
+  <rect x="295" y="348" width="22" height="22" rx="6" ry="6" fill="url(#dk)" opacity="0.45"/>
+  <rect x="340" y="340" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.70"/>
+  <rect x="390" y="342" width="22" height="22" rx="6" ry="6" fill="url(#dk)" opacity="0.85"/>
+
+  <rect x="256" y="390" width="22" height="22" rx="6" ry="6" fill="url(#dk)" opacity="0.55"/>
+  <rect x="294" y="386" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.80"/>
+  <rect x="344" y="392" width="22" height="22" rx="6" ry="6" fill="url(#dk)" opacity="0.45"/>
+  <rect x="382" y="386" width="34" height="34" rx="8" ry="8" fill="url(#dk)" opacity="0.65"/>
+
+  <!-- ══ SPARKLE / STAR centered at (256, 256) ══ -->
+  <circle cx="256" cy="256" r="54" fill="white" opacity="0.25"/>
+
+  <polygon
+    points="256,198 276,236 312,256 276,276 256,314 236,276 200,256 236,236"
+    fill="white"
+    filter="url(#starShadow)"
+  />
+
+  <circle cx="256" cy="191" r="7" fill="white" opacity="0.9"/>
+  <circle cx="319" cy="256" r="7" fill="white" opacity="0.9"/>
+  <circle cx="256" cy="321" r="7" fill="white" opacity="0.9"/>
+  <circle cx="193" cy="256" r="7" fill="white" opacity="0.9"/>
+</svg>

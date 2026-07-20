@@ -350,7 +350,7 @@ export default function App() {
     }
   };
 
-  // Save the custom QR to Local Storage
+  // Save the custom QR to Local Storage (includes full payload + styling)
   const handleSaveQr = () => {
     const payloadObject = {
       destUrl: qrType === 'url' ? destUrl : '',
@@ -373,7 +373,9 @@ export default function App() {
       cornerDotColor,
       bgColor,
       logoSize,
-      logoPreview
+      logoPreview,
+      // Also save logoMode so it can be fully restored
+      logoMode,
     };
 
     const newQr = {
@@ -519,23 +521,60 @@ export default function App() {
     }
   };
 
-  // Load a saved style preset from history back into the editor
-  const handleLoadStyle = (styling) => {
-    if (!styling) return;
-    setDotType(styling.dotType || 'extra-rounded');
-    setDotColor(styling.dotColor || '#2C3E50');
-    setUseGradient(styling.useGradient || false);
-    setGradientColor1(styling.gradientColor1 || '#FFB3D9');
-    setGradientColor2(styling.gradientColor2 || '#B3E5FC');
-    setGradientType(styling.gradientType || 'linear');
-    setCornerSquareType(styling.cornerSquareType || 'extra-rounded');
-    setCornerSquareColor(styling.cornerSquareColor || '#2C3E50');
-    setCornerDotType(styling.cornerDotType || 'dot');
-    setCornerDotColor(styling.cornerDotColor || '#2C3E50');
-    setBgColor(styling.bgColor || '#FFFDFE');
-    setLogoSize(styling.logoSize || 0.35);
-    setLogoPreview(styling.logoPreview || null);
-    showAlert('Loaded QR design settings into studio!', 'success');
+  // Load a full saved QR campaign back into the studio editor.
+  // Restores: name, type, all content payload fields, all styling, and logo mode.
+  const handleLoadQr = (qr) => {
+    if (!qr) return;
+    const { styling_config: s, payload: p, type, name } = qr;
+
+    // --- Restore identity ---
+    if (name) setQrName(name);
+    if (type) setQrType(type);
+
+    // --- Restore content payload for each type ---
+    if (p) {
+      if (type === 'url' && p.destUrl) setDestUrl(p.destUrl);
+      if (type === 'text' && p.text) setTextPayload(p.text);
+      if (type === 'wifi' && p.wifi) {
+        setWifiSsid(p.wifi.ssid || '');
+        setWifiPassword(p.wifi.password || '');
+        setWifiEncryption(p.wifi.encryption || 'WPA');
+      }
+      if (type === 'vcard' && p.vcard) {
+        setVcardName(p.vcard.name || '');
+        setVcardPhone(p.vcard.phone || '');
+        setVcardEmail(p.vcard.email || '');
+        setVcardNote(p.vcard.note || '');
+      }
+      if (type === 'upi' && p.upi) {
+        setUpiId(p.upi.id || '');
+        setUpiAmount(p.upi.amount || '');
+      }
+    }
+
+    // --- Restore all styling ---
+    if (s) {
+      setDotType(s.dotType || 'extra-rounded');
+      setDotColor(s.dotColor || '#2C3E50');
+      setUseGradient(s.useGradient || false);
+      setGradientColor1(s.gradientColor1 || '#FFB3D9');
+      setGradientColor2(s.gradientColor2 || '#B3E5FC');
+      setGradientType(s.gradientType || 'linear');
+      setCornerSquareType(s.cornerSquareType || 'extra-rounded');
+      setCornerSquareColor(s.cornerSquareColor || '#2C3E50');
+      setCornerDotType(s.cornerDotType || 'dot');
+      setCornerDotColor(s.cornerDotColor || '#2C3E50');
+      setBgColor(s.bgColor || '#FFFDFE');
+      setLogoSize(s.logoSize || 0.35);
+      setLogoPreview(s.logoPreview || null);
+      setLogoMode(s.logoMode || 'image');
+    }
+
+    // Force the QR preview instance to be re-created fresh on the next render,
+    // so the new settings paint correctly after the tab switch.
+    qrStylingInstance.current = null;
+
+    showAlert(`Loaded "${name || 'QR Code'}" into Studio — ready to edit!`, 'success');
     setActiveTab('editor');
   };
 
@@ -557,8 +596,8 @@ export default function App() {
       {/* Header Panel */}
       <header className="navbar bg-base-100 border-b border-base-200 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-md">
-            <QrCode className="w-6 h-6 animate-bounce" />
+          <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-md bg-white">
+            <img src="/logo.svg" className="w-full h-full object-cover" alt="CuteQR Logo" />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-neutral leading-none m-0">CuteQR Offline</h1>
@@ -1199,47 +1238,73 @@ export default function App() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {qrList.map((qr) => {
+                  const s = qr.styling_config || {};
+                  const previewColor1 = s.useGradient ? (s.gradientColor1 || '#FFB3D9') : (s.dotColor || '#2C3E50');
+                  const previewColor2 = s.useGradient ? (s.gradientColor2 || '#B3E5FC') : (s.dotColor || '#2C3E50');
+                  const payloadLabel = 
+                    qr.type === 'url' ? qr.payload?.destUrl :
+                    qr.type === 'text' ? qr.payload?.text :
+                    qr.type === 'wifi' ? `Wi-Fi: ${qr.payload?.wifi?.ssid}` :
+                    qr.type === 'vcard' ? `Contact: ${qr.payload?.vcard?.name}` :
+                    qr.type === 'upi' ? `UPI: ${qr.payload?.upi?.id}` : 'Custom';
+
                   return (
-                    <div key={qr.id} className="card bg-white border border-base-200 shadow-sm hover:shadow-md rounded-3xl p-5 flex flex-col gap-4 transition-all">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-bold text-neutral m-0 truncate max-w-[180px]">{qr.name}</h3>
-                          <span className="text-[10px] text-neutral/40 font-medium block mt-0.5">Created: {new Date(qr.created_at).toLocaleDateString()}</span>
+                    <div key={qr.id} className="card bg-white border border-base-200 shadow-sm hover:shadow-lg rounded-3xl overflow-hidden flex flex-col transition-all duration-200 group">
+                      
+                      {/* QR Thumbnail Preview strip */}
+                      <div
+                        className="flex items-center justify-center pt-6 pb-4 px-4"
+                        style={{ backgroundColor: s.bgColor || '#FFFDFE' }}
+                      >
+                        <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-sm border border-base-200/50">
+                          <BeautifulQR
+                            data={qr.type === 'url' ? (qr.payload?.destUrl || 'https://cuteqr.app') :
+                                  qr.type === 'wifi' ? `WIFI:S:${qr.payload?.wifi?.ssid};T:${qr.payload?.wifi?.encryption};P:${qr.payload?.wifi?.password};;` :
+                                  qr.type === 'vcard' ? `BEGIN:VCARD\nFN:${qr.payload?.vcard?.name}\nEND:VCARD` :
+                                  qr.type === 'upi' ? `upi://pay?pa=${qr.payload?.upi?.id}` :
+                                  qr.payload?.text || 'CuteQR'}
+                            color1={previewColor1}
+                            color2={previewColor2}
+                            dotType={s.dotType || 'extra-rounded'}
+                            bgColor={s.bgColor || '#FFFDFE'}
+                            size={96}
+                          />
                         </div>
-                        <div className="flex gap-1.5">
-                          <span className="badge badge-sm py-2 text-[10px] font-bold bg-primary text-white border-none capitalize">
-                            {qr.type}
+                      </div>
+
+                      {/* Card body */}
+                      <div className="p-4 flex flex-col gap-3 flex-1">
+                        <div className="flex justify-between items-start gap-2">
+                          <div className="min-w-0">
+                            <h3 className="font-bold text-neutral m-0 truncate text-sm">{qr.name}</h3>
+                            <span className="text-[10px] text-neutral/40 font-medium block mt-0.5">
+                              {new Date(qr.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </span>
+                          </div>
+                          <span className="badge badge-sm py-2 text-[10px] font-bold bg-primary/10 text-primary border-none capitalize shrink-0">
+                            {qr.type === 'url' ? 'Link' : qr.type === 'wifi' ? 'Wi-Fi' : qr.type === 'vcard' ? 'Contact' : qr.type === 'upi' ? 'UPI' : qr.type}
                           </span>
                         </div>
-                      </div>
 
-                      {/* Display targets / payloads */}
-                      <div className="p-3 bg-base-200/30 rounded-2xl border border-base-200/50 flex flex-col gap-1">
-                        <span className="text-[10px] font-semibold text-neutral/40 uppercase tracking-wider block">Target Payload</span>
-                        <span className="text-xs font-semibold text-neutral/75 truncate mt-0.5">
-                          {qr.type === 'url' ? qr.payload?.destUrl : 
-                           qr.type === 'text' ? qr.payload?.text : 
-                           qr.type === 'wifi' ? `SSID: ${qr.payload?.wifi?.ssid} (${qr.payload?.wifi?.encryption})` : 
-                           qr.type === 'vcard' ? `vCard: ${qr.payload?.vcard?.name}` : 'Custom'}
-                        </span>
-                      </div>
+                        <div className="p-2.5 bg-base-100 rounded-xl border border-base-200/70">
+                          <span className="text-[10px] text-neutral/50 truncate block leading-relaxed">{payloadLabel}</span>
+                        </div>
 
-                      {/* Interactions */}
-                      <div className="flex items-center justify-end border-t border-base-100 pt-3 mt-1">
-                        <div className="flex gap-2">
-                          <button 
-                            onClick={() => handleLoadStyle(qr.styling_config)}
-                            className="btn btn-ghost btn-sm rounded-xl text-neutral/70 flex gap-1 hover:bg-base-200"
-                            title="Load styling into studio"
+                        {/* Actions */}
+                        <div className="flex gap-2 mt-auto pt-2 border-t border-base-100">
+                          <button
+                            onClick={() => handleLoadQr(qr)}
+                            className="btn btn-primary btn-sm flex-1 rounded-xl text-white border-none gap-1.5 text-xs font-bold"
+                            title="Load full QR design into the studio"
                           >
-                            <Settings className="w-3.5 h-3.5" /> Design
+                            <ArrowRight className="w-3.5 h-3.5" /> Load into Studio
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDeleteQr(qr.id)}
-                            className="btn btn-ghost btn-sm text-error rounded-xl hover:bg-error/10 hover:text-error"
+                            className="btn btn-ghost btn-sm text-error rounded-xl hover:bg-error/10 hover:text-error px-2.5"
                             title="Delete campaign"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -1559,36 +1624,39 @@ export default function App() {
 }
 
 // Algorithmic Art / Canvas Design QR Component
-const BeautifulQR = ({ data, color1, color2 }) => {
+// Used both in the Donation modal and as gallery card thumbnails.
+// Accepts `dotType`, `bgColor`, `size` for accurate per-card previews.
+const BeautifulQR = ({ data, color1, color2, dotType = 'rounded', bgColor = 'transparent', size = 96 }) => {
   const ref = useRef(null);
   
   useEffect(() => {
     const qr = new QRCodeStyling({
-      width: 96,
-      height: 96,
-      data: data,
+      width: size,
+      height: size,
+      data: data || 'https://cuteqr.app',
       dotsOptions: {
         color: color1,
-        type: "rounded",
-        gradient: {
-          type: "linear",
+        type: dotType,
+        gradient: color1 !== color2 ? {
+          type: 'linear',
           rotation: Math.PI / 4,
           colorStops: [
             { offset: 0, color: color1 },
             { offset: 1, color: color2 }
           ]
-        }
+        } : undefined
       },
-      cornersSquareOptions: { type: "extra-rounded", color: color1 },
-      cornersDotOptions: { type: "dot", color: color2 },
-      backgroundOptions: { color: "transparent" }
+      cornersSquareOptions: { type: 'extra-rounded', color: color1 },
+      cornersDotOptions: { type: 'dot', color: color2 },
+      backgroundOptions: { color: bgColor || 'transparent' },
+      margin: 4,
     });
     
     if (ref.current) {
       ref.current.innerHTML = '';
       qr.append(ref.current);
     }
-  }, [data, color1, color2]);
+  }, [data, color1, color2, dotType, bgColor, size]);
 
-  return <div ref={ref} className="transition-all duration-300 pointer-events-none" />;
+  return <div ref={ref} className="transition-all duration-300 pointer-events-none w-full h-full flex items-center justify-center" />;
 };
