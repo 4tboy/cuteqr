@@ -40,9 +40,10 @@
   },
   "build": {
     "appId": "com.cuteqr.app",
-    "productName": "CuteQR",
+    "productName": "CuteQR Studio",
     "directories": {
-      "output": "dist-electron"
+      "output": "dist-electron",
+      "buildResources": "build"
     },
     "files": [
       "dist/**/*",
@@ -50,14 +51,36 @@
       "package.json"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "target": [
-        "nsis",
-        "portable"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ]
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "CuteQR Studio",
+      "uninstallDisplayName": "CuteQR Studio (Uninstall)",
+      "include": "build/installer.nsh",
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "CuteQR-Setup-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "CuteQR-Portable-${version}.exe"
     }
   }
 }

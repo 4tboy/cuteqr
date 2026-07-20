@@ -5,6 +5,7 @@ client/node_modules/
 # ─── Build Output ────────────────────────────────────────────────────────────
 client/dist/
 client/dist-electron/
+client/build/
 dist/
 dist-ssr/
 *.local
@@ -21,6 +22,8 @@ lerna-debug.log*
 # ─── Personal / Internal Files ───────────────────────────────────────────────
 .agents/
 backup.zip
+project_backup.zip
+*.zip
 tests/
 DESIGN.md
 PRODUCT.md

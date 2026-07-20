@@ -1,7 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
-const isDev = process.env.NODE_ENV !== 'production';
+// app.isPackaged is the canonical way to detect packaged vs dev in Electron.
+// In dev (electron:start), this is false. In a built portable/installer, it's true.
+const isProd = app.isPackaged;
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -12,20 +14,34 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      webSecurity: true
+      // CRITICAL for production (file:// builds):
+      // When loading via file:// protocol, origin is null. Without disabling webSecurity,
+      // Chromium's CORS policy blocks same-directory asset loading, causing blank screens.
+      // In dev mode we keep webSecurity ON since we load from localhost.
+      webSecurity: !isProd,
     },
     autoHideMenuBar: true,
-    show: false, // Don't show until ready-to-show
+    show: false,
+    backgroundColor: '#FFFDFE', // Match app background to prevent flash of white
   });
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
 
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:3000');
+  if (!isProd) {
+    // Dev mode: load from Vite dev server
+    mainWindow.loadURL('http://localhost:3000').catch((err) => {
+      console.error('Failed to load dev server URL:', err);
+    });
+    // Open DevTools in dev for debugging
+    // mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    // Production mode: load from the built dist folder
+    const distPath = path.join(__dirname, 'dist', 'index.html');
+    mainWindow.loadFile(distPath).catch((err) => {
+      console.error('Failed to load dist file:', err);
+    });
   }
 }
 
