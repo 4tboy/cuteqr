@@ -5,7 +5,6 @@ client/node_modules/
 # ─── Build Output ────────────────────────────────────────────────────────────
 client/dist/
 client/dist-electron/
-client/build/
 dist/
 dist-ssr/
 *.local
