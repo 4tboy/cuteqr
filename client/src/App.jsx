@@ -37,6 +37,59 @@ import {
   User
 } from 'lucide-react';
 
+const CuteQRLogoIcon = ({ className = "w-10 h-10" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className={className}>
+    <defs>
+      <linearGradient id="headerLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFB3D9"/>
+        <stop offset="100%" stopColor="#B3E5FC"/>
+      </linearGradient>
+      <linearGradient id="headerLogoDk" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#2C3E50"/>
+        <stop offset="100%" stopColor="#1e2d3d"/>
+      </linearGradient>
+      <radialGradient id="headerStarGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor="white" stopOpacity="1"/>
+        <stop offset="60%" stopColor="white" stopOpacity="0.9"/>
+        <stop offset="100%" stopColor="white" stopOpacity="0"/>
+      </radialGradient>
+      <filter id="headerStarShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="rgba(255,179,217,0.8)"/>
+      </filter>
+    </defs>
+    <rect width="512" height="512" rx="112" ry="112" fill="url(#headerLogoBg)"/>
+    <rect x="68" y="68" width="126" height="126" rx="26" ry="26" fill="url(#headerLogoDk)"/>
+    <rect x="90" y="90" width="82" height="82" rx="16" ry="16" fill="url(#headerLogoBg)"/>
+    <rect x="112" y="112" width="38" height="38" rx="9" ry="9" fill="url(#headerLogoDk)"/>
+    <rect x="318" y="68" width="126" height="126" rx="26" ry="26" fill="url(#headerLogoDk)"/>
+    <rect x="340" y="90" width="82" height="82" rx="16" ry="16" fill="url(#headerLogoBg)"/>
+    <rect x="362" y="112" width="38" height="38" rx="9" ry="9" fill="url(#headerLogoDk)"/>
+    <rect x="68" y="318" width="126" height="126" rx="26" ry="26" fill="url(#headerLogoDk)"/>
+    <rect x="90" y="340" width="82" height="82" rx="16" ry="16" fill="url(#headerLogoBg)"/>
+    <rect x="112" y="362" width="38" height="38" rx="9" ry="9" fill="url(#headerLogoDk)"/>
+    <rect x="290" y="242" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.80"/>
+    <rect x="340" y="250" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.55"/>
+    <rect x="388" y="242" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.35"/>
+    <rect x="248" y="292" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.65"/>
+    <rect x="338" y="288" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.88"/>
+    <rect x="388" y="295" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.50"/>
+    <rect x="248" y="340" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.90"/>
+    <rect x="295" y="348" width="22" height="22" rx="6" ry="6" fill="url(#headerLogoDk)" opacity="0.45"/>
+    <rect x="340" y="340" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.70"/>
+    <rect x="390" y="342" width="22" height="22" rx="6" ry="6" fill="url(#headerLogoDk)" opacity="0.85"/>
+    <rect x="256" y="390" width="22" height="22" rx="6" ry="6" fill="url(#headerLogoDk)" opacity="0.55"/>
+    <rect x="294" y="386" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.80"/>
+    <rect x="344" y="392" width="22" height="22" rx="6" ry="6" fill="url(#headerLogoDk)" opacity="0.45"/>
+    <rect x="382" y="386" width="34" height="34" rx="8" ry="8" fill="url(#headerLogoDk)" opacity="0.65"/>
+    <circle cx="256" cy="256" r="54" fill="white" opacity="0.25"/>
+    <polygon points="256,198 276,236 312,256 276,276 256,314 236,276 200,256 236,236" fill="white" filter="url(#headerStarShadow)"/>
+    <circle cx="256" cy="191" r="7" fill="white" opacity="0.9"/>
+    <circle cx="319" cy="256" r="7" fill="white" opacity="0.9"/>
+    <circle cx="256" cy="321" r="7" fill="white" opacity="0.9"/>
+    <circle cx="193" cy="256" r="7" fill="white" opacity="0.9"/>
+  </svg>
+);
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('editor'); // editor | history | scanner
   const [qrList, setQrList] = useState([]);
@@ -596,8 +649,8 @@ export default function App() {
       {/* Header Panel */}
       <header className="navbar bg-base-100 border-b border-base-200 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-md bg-white">
-            <img src="/logo.svg" className="w-full h-full object-cover" alt="CuteQR Logo" />
+          <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-md shrink-0">
+            <CuteQRLogoIcon className="w-full h-full" />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-neutral leading-none m-0">CuteQR Offline</h1>
